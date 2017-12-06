@@ -26,5 +26,20 @@ $(document).on("click", "p", function () {
             $("#notes").append("<h2>" + data.title + "</h2>");
             //input to enter new title
             $("#notes").append("<input id='titleinput' name='title' >");
-        })
-})
+            //text are to add new note to body
+            $("#notes").append("<textarea id='bodyimput' name='body'></textarea>");
+            //button to submit new note with id of article saved to it
+            $("#notes").append("<button data-id='" + data._id + "' id='savenote'>Save Note</button>");
+            // If there's a note in the article
+            if (data.note) {
+                // Place the title of the note in the title input
+                $("#titleinput").val(data.note.title);
+                // Place the body of the note in the body textarea
+                $("#bodyinput").val(data.note.body);
+
+                data.note.forEach(function (note) {
+                    $("#notes").append("<br/>" + note.title + ': ' + note.body + "<br/>")
+                })
+            }
+        });
+});
