@@ -41,7 +41,7 @@ mongoose.connect('mongodb://localhost/moonscraper', {
 //Get route to scrape website
 app.get('/scrape', function (req, res) {
     //first grab body of html with request
-    axios.get('http://www.XXXXXXXX.com/').then(function (response) {
+    axios.get('http://www.echojs.com/').then(function (response) {
         //next, load into cheerio and save for shorthand selector
         var $ = cheerio.load(response.data);
         //now grab every h2 within article tag
