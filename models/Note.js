@@ -35,3 +35,27 @@ mongoose.Promise = Promise;
 mongoose.connect('mongodb://localhost/moonscraper', {
     use.MongoClient: true
 });
+
+// Routes
+
+//Get route to scrape website
+app.get('/scrape', function (req, res) {
+    //first grab body of html with request
+    axios.get('http://www.XXXXXXXX.com/').then(function (response) {
+        //next, load into cheerio and save for shorthand selector
+        var $ = cheerio.load(response.data);
+        //now grab every h2 within article tag
+        $('article h2').each(function (i, element) {
+            //save empty result object
+            var result = {};
+            //add text and href of all links save as property of result object
+            result.title = $(this).children('a').text();
+            result.link = $(this).children('a').attr('href');
+            //create new article using the result
+            db.Article.create(result).then(function (dbArticle) {
+                //if able to scrape send message to client
+                res.send('Scrape Complete');
+            })
+        })
+    })
+})
